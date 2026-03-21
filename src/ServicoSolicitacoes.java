@@ -1,19 +1,28 @@
+import java.util.List;
+
 public class ServicoSolicitacoes {
-    // Dependemos de abstrações (Interfaces), não de implementações
-    private SolicitacaoRepository repository;
-    private ValidadorUsuario validador;
+    private final SolicitacaoRepository repository;
+    private final ValidadorUsuario validador;
 
     public ServicoSolicitacoes(SolicitacaoRepository repository, ValidadorUsuario validador) {
         this.repository = repository;
         this.validador = validador;
     }
 
-    public void criarSolicitacao(Solicitacao solicitacao, Usuario autor) {
+    public String registrarNovaSolicitacao(String desc, String local, Categoria cat, Usuario autor) {
         if (validador.ehValido(autor)) {
-            repository.salvar(solicitacao);
-            System.out.println("Protocolo gerado: " + solicitacao.getProtocolo());
-        } else {
-            System.out.println("Erro: Usuário não autenticado pelo sistema validador.");
+            Solicitacao nova = new Solicitacao(cat, desc, local, autor);
+            repository.salvar(nova);
+            return nova.getProtocolo();
         }
+        return "ERRO: Usuário não validado";
+    }
+
+    public Solicitacao buscarPeloProtocolo(String protocolo) {
+        return repository.buscarPorProtocolo(protocolo);
+    }
+
+    public List<Solicitacao> listarTodas() {
+        return repository.listarTodas();
     }
 }

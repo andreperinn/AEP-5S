@@ -18,6 +18,10 @@ public class Solicitacao {
         this.status = "aberto";
     }
 
+    public String getDescricao() {
+        return descricao;
+    }
+
     public String getProtocolo() {
         return this.protocolo;
     }
@@ -28,10 +32,6 @@ public class Solicitacao {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public String getDescricao() {
-        return descricao;
     }
 
     public void setDescricao(String descricao) {
