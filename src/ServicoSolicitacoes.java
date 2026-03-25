@@ -25,4 +25,10 @@ public class ServicoSolicitacoes {
     public List<Solicitacao> listarTodas() {
         return repository.listarTodas();
     }
+
+    public void verificarPrazos() {
+        for (Solicitacao s : repository.listarTodas()) {
+            s.verificarEAvancarStatus();
+        }
+    }
 }

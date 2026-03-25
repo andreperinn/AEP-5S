@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemoriaSolicitacaoRepository implements SolicitacaoRepository {
+public class
+MemoriaSolicitacao implements SolicitacaoRepository {
     private List<Solicitacao> lista = new ArrayList<>();
 
     @Override
