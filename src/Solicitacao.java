@@ -15,7 +15,7 @@ public class Solicitacao {
     private LocalDate prazoAtual;
 
     public Solicitacao(Categoria categoria, String descricao, String localizacao, Usuario autor) {
-        this.protocolo = "2026-" + contadorProtocolo;
+        this.protocolo = "2026-" + contadorProtocolo ;
         contadorProtocolo++;
 
         this.categoria = categoria;
@@ -108,6 +108,10 @@ public class Solicitacao {
     }
 
     // Função de verificar os prazos
+    //REGRA: Em execução 3 dias
+    //resolvido 5 dias
+    //após encerrado
+    //se houver prazo vencido sera informado
     public void verificarEAvancarStatus() {
         LocalDate hoje = LocalDate.now();
 
