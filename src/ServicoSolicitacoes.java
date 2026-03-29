@@ -12,7 +12,7 @@ public class ServicoSolicitacoes {
     public String registrarNovaSolicitacao(String desc, String local, Categoria cat, Usuario autor) {
 
         if (desc == null || desc.trim().isEmpty()) {
-            return "ERRO: descrição obrigatória";
+            return "ERRO: Descrição obrigatória";
         }
 
         if (local == null || local.trim().isEmpty()) {
