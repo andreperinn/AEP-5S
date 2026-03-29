@@ -10,11 +10,21 @@ public class ServicoSolicitacoes {
     }
 
     public String registrarNovaSolicitacao(String desc, String local, Categoria cat, Usuario autor) {
+
+        if (desc == null || desc.trim().isEmpty()) {
+            return "ERRO: descrição obrigatória";
+        }
+
+        if (local == null || local.trim().isEmpty()) {
+            return "ERRO: local obrigatório";
+        }
+
         if (validador.ehValido(autor)) {
             Solicitacao nova = new Solicitacao(cat, desc, local, autor);
             repository.salvar(nova);
             return nova.getProtocolo();
         }
+
         return "ERRO: Usuário não validado";
     }
 
