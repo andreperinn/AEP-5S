@@ -36,6 +36,16 @@ public class Main {
         return new Usuario(nome, "Cidadao", cpf, email, anonimo);
     }
 
+    //metodo de retorno para sucesso e ou erro na solicitação
+    private static void exibirResultado(String resultado) {
+        if (resultado.startsWith("ERRO")) {
+            System.out.println("Falha: " + resultado);
+        } else {
+            System.out.println("\nSUCESSO!");
+            System.out.println("Protocolo Gerado: " + resultado);
+        }
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
@@ -64,7 +74,7 @@ public class Main {
 
                     Usuario usuarioLogado = cadastrarUsuario(scanner);
 
-                    System.out.print("\nDescreva o problema (Ex: Falta de rampa, Merenda): ");
+                    System.out.print("Descreva o problema (Ex: Falta de rampa, Merenda): ");
                     String desc = scanner.nextLine();
 
                     System.out.print("Qual a escola/local?: ");
@@ -78,12 +88,8 @@ public class Main {
 
                     String resultado = servico.registrarNovaSolicitacao(desc, local, cat, usuarioLogado);
 
-                    if (resultado.startsWith("ERRO")) {
-                        System.out.println("Falha: " + resultado);
-                    } else {
-                        System.out.println("\nSUCESSO!");
-                        System.out.println("Protocolo Gerado: " + resultado);
-                    }
+                    exibirResultado(resultado);
+
                     break;
 
                 case 2:
