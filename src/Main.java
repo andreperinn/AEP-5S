@@ -46,6 +46,30 @@ public class Main {
         }
     }
 
+    private static void exibirSolicitacao(Solicitacao s) {
+        System.out.println("Protocolo : " + s.getProtocolo());
+        System.out.println("Categoria : " + s.getCategoria().getCat());
+        System.out.println("Descrição : " + s.getDescricao());
+        System.out.println("Local     : " + s.getLocalizacao());
+        System.out.println("Status    : " + s.getStatus());
+        System.out.println("Prazo     : " + s.getPrazoAtual());
+        System.out.println("Autor     : " + s.getAutor().getNomeExibicao());
+    }
+
+    private static String escolherPerfil(Scanner scanner) {
+        System.out.println("\n==== ACESSO AO SISTEMA ====");
+        System.out.println("1 - Usuário");
+        System.out.println("2 - Admin");
+        System.out.print("Escolha o perfil: ");
+        String perfil = scanner.nextLine();
+
+        if (perfil.equals("2")) {
+            return "Admin";
+        }
+
+        return "Usuario";
+    }
+
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
