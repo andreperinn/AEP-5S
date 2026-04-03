@@ -79,89 +79,112 @@ public class Main {
         ValidadorUsuario validador = (usuario) -> usuario.getNome() != null && !usuario.getNome().isEmpty();
         ServicoSolicitacoes servico = new ServicoSolicitacoes(repo, validador);
 
+        String perfil = escolherPerfil(scanner);
+
         do {
             servico.verificarPrazos();
 
             System.out.println("\n--- SISTEMA ESCOLAR ---");
-            System.out.println("1 - Criar solicitação");
-            System.out.println("2 - Listar solicitações");
-            System.out.println("3 - Buscar por protocolo");
-            System.out.println("4 - Sair do sistema");
+            System.out.println("Perfil logado: " + perfil);
+
+            if (perfil.equals("Admin")) {
+                System.out.println("1 - Listar solicitações");
+                System.out.println("2 - Buscar por protocolo");
+                System.out.println("3 - Sair do sistema");
+            } else {
+                System.out.println("1 - Criar solicitação");
+                System.out.println("2 - Buscar por protocolo");
+                System.out.println("3 - Sair do sistema");
+            }
+
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
             scanner.nextLine();
 
-            switch (opcao) {
+            if (perfil.equals("Admin")) {
+                switch (opcao) {
 
-                case 1:
-                    System.out.println("\n==== REGISTRO DE DEMANDA ====");
-
-                    Usuario usuarioLogado = cadastrarUsuario(scanner);
-
-                    System.out.print("Descreva o problema (Ex: Falta de rampa, Merenda): ");
-                    String desc = scanner.nextLine();
-
-                    System.out.print("Qual a escola/local?: ");
-                    String local = scanner.nextLine();
-
-                    System.out.print("Categoria (Denúncia, Infraestrutura ou PCD): ");
-                    String categoriaTexto = scanner.nextLine();
-
-                    Categoria cat = new Categoria();
-                    cat.setCat(categoriaTexto);
-
-                    String resultado = servico.registrarNovaSolicitacao(desc, local, cat, usuarioLogado);
-
-                    exibirResultado(resultado);
-
-                    break;
-
-                case 2:
-                    List<Solicitacao> lista = servico.listarTodas();
-                    if (lista.isEmpty()) {
-                        System.out.println("Nenhuma solicitação registrada!");
-                    } else {
-                        System.out.println("\n==== SOLICITAÇÕES REGISTRADAS ====");
-                        for (Solicitacao s : lista) {
+                    case 1:
+                        List<Solicitacao> lista = servico.listarTodas();
+                        if (lista.isEmpty()) {
+                            System.out.println("Nenhuma solicitação registrada!");
+                        } else {
+                            System.out.println("\n==== SOLICITAÇÕES REGISTRADAS ====");
+                            for (Solicitacao s : lista) {
+                                System.out.println("----------------------------------");
+                                exibirSolicitacao(s);
+                            }
                             System.out.println("----------------------------------");
-                            System.out.println("Protocolo : " + s.getProtocolo());
-                            System.out.println("Categoria : " + s.getCategoria().getCat());
-                            System.out.println("Descrição : " + s.getDescricao());
-                            System.out.println("Local     : " + s.getLocalizacao());
-                            System.out.println("Status    : " + s.getStatus());
-                            System.out.println("Prazo     : " + s.getPrazoAtual());
-                            System.out.println("Autor     : " + s.getAutor().getNomeExibicao());
                         }
-                        System.out.println("----------------------------------");
-                    }
-                    break;
+                        break;
 
-                case 3:
-                    System.out.print("Digite o protocolo: ");
-                    String protocolo = scanner.nextLine();
-                    Solicitacao encontrada = servico.buscarPeloProtocolo(protocolo);
-                    if (encontrada == null) {
-                        System.out.println("Solicitação não encontrada para o protocolo: " + protocolo);
-                    } else {
-                        System.out.println("\n==== SOLICITAÇÃO ENCONTRADA ====");
-                        System.out.println("Protocolo : " + encontrada.getProtocolo());
-                        System.out.println("Categoria : " + encontrada.getCategoria().getCat());
-                        System.out.println("Descrição : " + encontrada.getDescricao());
-                        System.out.println("Local     : " + encontrada.getLocalizacao());
-                        System.out.println("Status    : " + encontrada.getStatus());
-                        System.out.println("Prazo     : " + encontrada.getPrazoAtual());
-                        System.out.println("Autor     : " + encontrada.getAutor().getNomeExibicao());
-                    }
-                    break;
+                    case 2:
+                        System.out.print("Digite o protocolo: ");
+                        String protocolo = scanner.nextLine();
+                        Solicitacao encontrada = servico.buscarPeloProtocolo(protocolo);
+                        if (encontrada == null) {
+                            System.out.println("Solicitação não encontrada para o protocolo: " + protocolo);
+                        } else {
+                            System.out.println("\n==== SOLICITAÇÃO ENCONTRADA ====");
+                            exibirSolicitacao(encontrada);
+                        }
+                        break;
 
-                case 4:
-                    System.out.println("Encerrando sistema...");
-                    break;
+                    case 3:
+                        System.out.println("Encerrando sistema...");
+                        break;
 
-                default:
-                    System.out.println("Opção inválida.");
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+
+            } else {
+                switch (opcao) {
+
+                    case 1:
+                        System.out.println("\n==== REGISTRO DE DEMANDA ====");
+
+                        Usuario usuarioLogado = cadastrarUsuario(scanner);
+
+                        System.out.print("Descreva o problema (Ex: Falta de rampa, Merenda): ");
+                        String desc = scanner.nextLine();
+
+                        System.out.print("Qual a escola/local?: ");
+                        String local = scanner.nextLine();
+
+                        System.out.print("Categoria (Denúncia, Infraestrutura ou PCD): ");
+                        String categoriaTexto = scanner.nextLine();
+
+                        Categoria cat = new Categoria();
+                        cat.setCat(categoriaTexto);
+
+                        String resultado = servico.registrarNovaSolicitacao(desc, local, cat, usuarioLogado);
+
+                        exibirResultado(resultado);
+
+                        break;
+
+                    case 2:
+                        System.out.print("Digite o protocolo: ");
+                        String protocolo = scanner.nextLine();
+                        Solicitacao encontrada = servico.buscarPeloProtocolo(protocolo);
+                        if (encontrada == null) {
+                            System.out.println("Solicitação não encontrada para o protocolo: " + protocolo);
+                        } else {
+                            System.out.println("\n==== SOLICITAÇÃO ENCONTRADA ====");
+                            exibirSolicitacao(encontrada);
+                        }
+                        break;
+
+                    case 3:
+                        System.out.println("Encerrando sistema...");
+                        break;
+
+                    default:
+                        System.out.println("Opção inválida.");
+                }
             }
 
-        } while (opcao != 4);
+        } while (opcao != 3);
     }
 }
