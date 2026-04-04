@@ -41,4 +41,15 @@ public class ServicoSolicitacoes {
             s.verificarEAvancarStatus();
         }
     }
+
+    public boolean atualizarStatus(String protocolo, String novoStatus, String observacao) {
+        Solicitacao solicitacao = repository.buscarPorProtocolo(protocolo);
+
+        if (solicitacao == null) {
+            return false;
+        }
+
+        solicitacao.adicionarHistorico(novoStatus, observacao);
+        return true;
+    }
 }

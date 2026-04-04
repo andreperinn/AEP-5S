@@ -44,4 +44,8 @@ public class Usuario {
     public String getNomeExibicao() {
         return anonimo ? "Anônimo" : nome;
     }
+
+    public boolean isAdmin() {
+       return tipo != null && tipo.equalsIgnoreCase("Admin");
+    }
 }

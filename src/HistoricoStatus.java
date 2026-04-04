@@ -24,4 +24,9 @@ public class HistoricoStatus {
     public LocalDateTime getData() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "[" + data + "] " + status + " - " + comentario;
+    }
 }
